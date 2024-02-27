@@ -58,4 +58,21 @@ public class PersonnageTest
         var hpFinaux = personnage.PointsDeVie;
         Assert.Equal(hpInitiaux, hpFinaux);
     }
+
+    [Fact(DisplayName = "Recevoir des dégâts diminue la vie")]
+    public void RecevoirDegatsDiminueLaVie()
+    {
+        // ETANT DONNE un Personnage
+        const int dégâtsInfligés = 1;
+        var personnage = new Personnage();
+        var hpInitiaux = personnage.PointsDeVie;
+
+        // QUAND il reçoit un dégât
+        personnage.RecevoirDégâts(dégâtsInfligés);
+
+        // ALORS ses HP diminuent de 1
+        var hpFinaux = personnage.PointsDeVie;
+        var différence = hpInitiaux - hpFinaux;
+        Assert.Equal(dégâtsInfligés, différence);
+    }
 }

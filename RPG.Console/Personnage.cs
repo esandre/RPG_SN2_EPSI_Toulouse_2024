@@ -14,4 +14,8 @@ public class Personnage
         if (PointsDeVie != 0) return;
         PointsDeVie = 1;
     }
+
+    public void RecevoirDégâts(int dégâtsInfligés)
+    {
+    }
 }
