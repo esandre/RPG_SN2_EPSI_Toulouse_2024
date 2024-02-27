@@ -8,4 +8,9 @@ public class Personnage
     {
         PointsDeVie = 0;
     }
+
+    public void Ressusciter()
+    {
+        PointsDeVie = 1;
+    }
 }
