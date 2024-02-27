@@ -2,5 +2,10 @@
 
 public class Personnage
 {
-    public int HealthPoints => 100;
+    public int PointsDeVie { get; private set; } = 100;
+
+    public void Tuer()
+    {
+        PointsDeVie = 0;
+    }
 }
