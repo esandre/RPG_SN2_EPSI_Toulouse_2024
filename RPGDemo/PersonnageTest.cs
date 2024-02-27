@@ -43,4 +43,19 @@ public class PersonnageTest
         var hp = personnage.PointsDeVie;
         Assert.Equal(1, hp);
     }
+
+    [Fact]
+    public void RessusciterSansTuerNeChangeRien()
+    {
+        // ETANT DONNE un Personnage vivant
+        var personnage = new Personnage();
+        var hpInitiaux = personnage.PointsDeVie;
+
+        // QUAND on le ressuscite
+        personnage.Ressusciter();
+
+        // ALORS ses HP ne changent pas
+        var hpFinaux = personnage.PointsDeVie;
+        Assert.Equal(hpInitiaux, hpFinaux);
+    }
 }

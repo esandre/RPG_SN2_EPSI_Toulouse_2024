@@ -11,6 +11,7 @@ public class Personnage
 
     public void Ressusciter()
     {
+        if (PointsDeVie != 0) return;
         PointsDeVie = 1;
     }
 }
