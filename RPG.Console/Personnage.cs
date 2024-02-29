@@ -4,22 +4,25 @@ public class Personnage
 {
     public const uint PointsDeVieMax = 100U;
 
-    public uint PointsDeVie { get; private set; } = PointsDeVieMax;
+    public PointsDeVie PointsDeVie { get; private set; }
+
+    public Personnage()
+    {
+        PointsDeVie = new PointsDeVie(PointsDeVieMax);
+    }
 
     public void Tuer()
     {
-        PointsDeVie = 0;
+        PointsDeVie = PointsDeVie.Zero;
     }
 
     public void Ressusciter()
     {
-        if (PointsDeVie != 0) return;
-        PointsDeVie = 1;
+        PointsDeVie = PointsDeVie.Ressusciter();
     }
 
     public void RecevoirDégâts(uint dégâtsInfligés)
     {
-        if (dégâtsInfligés > PointsDeVie) dégâtsInfligés = PointsDeVie;
         PointsDeVie -= dégâtsInfligés;
     }
 }
