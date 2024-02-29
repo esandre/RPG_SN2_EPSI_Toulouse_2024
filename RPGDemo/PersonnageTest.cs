@@ -82,29 +82,17 @@ public class PersonnageTest
         Assert.Equal(dégâtsInfligés.Sum(), différence);
     }
 
-    [Fact]
-    public void RecevoirPlusDeDégâtsQueLaVie()
+    [Theory]
+    [InlineData(Personnage.PointsDeVieMax + 1U)]
+    [InlineData(Personnage.PointsDeVieMax, 1U)]
+    public void RecevoirPlusDeDégâtsQueLaVie(params uint[] dégâtsInfligés)
     {
         // ETANT DONNE un Personnage
         var personnage = new Personnage();
 
         // QUAND il reçoit plus de dégâts que ses points de vie
-        personnage.RecevoirDégâts(Personnage.PointsDeVieMax + 1);
-
-        // ALORS ses HP tombent à zéro
-        var hpFinaux = personnage.PointsDeVie;
-        Assert.Equal(0U, hpFinaux);
-    }
-
-    [Fact]
-    public void RecevoirPlusDeDégâtsQueLaVieEn2Fois()
-    {
-        // ETANT DONNE un Personnage
-        var personnage = new Personnage();
-
-        // QUAND il reçoit plus de dégâts que ses points de vie
-        personnage.RecevoirDégâts(Personnage.PointsDeVieMax);
-        personnage.RecevoirDégâts(1);
+        foreach (var dégâtInfligé in dégâtsInfligés)
+            personnage.RecevoirDégâts(dégâtInfligé);
 
         // ALORS ses HP tombent à zéro
         var hpFinaux = personnage.PointsDeVie;
