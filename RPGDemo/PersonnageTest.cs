@@ -1,4 +1,5 @@
 using RPG.Console;
+using RPG.Test.Utilities;
 
 namespace RPG.Test;
 
@@ -12,7 +13,7 @@ public class PersonnageTest
 
         // ALORS il a 100 HP
         var hp = personnage.PointsDeVie;
-        Assert.Equal(100, hp);
+        Assert.Equal(100U, hp);
     }
 
     [Fact]
@@ -26,7 +27,7 @@ public class PersonnageTest
 
         // ALORS il a 0 HP
         var hp = personnage.PointsDeVie;
-        Assert.Equal(0, hp);
+        Assert.Equal(0U, hp);
     }
 
     [Fact]
@@ -41,7 +42,7 @@ public class PersonnageTest
 
         // ALORS il a 1 HP
         var hp = personnage.PointsDeVie;
-        Assert.Equal(1, hp);
+        Assert.Equal(1U, hp);
     }
 
     [Fact]
@@ -59,20 +60,54 @@ public class PersonnageTest
         Assert.Equal(hpInitiaux, hpFinaux);
     }
 
-    [Fact(DisplayName = "Recevoir des dégâts diminue la vie")]
-    public void RecevoirDegatsDiminueLaVie()
+    [Theory(DisplayName = "Recevoir des dégâts diminue la vie")]
+    [InlineData(0U)]
+    [InlineData(1U)]
+    [InlineData(2U)]
+    [InlineData(Personnage.PointsDeVieMax)]
+    [InlineData(1U, 1U)]
+    public void RecevoirDegatsDiminueLaVie(params uint[] dégâtsInfligés)
     {
         // ETANT DONNE un Personnage
-        const int dégâtsInfligés = 1;
         var personnage = new Personnage();
         var hpInitiaux = personnage.PointsDeVie;
 
-        // QUAND il reçoit un dégât
-        personnage.RecevoirDégâts(dégâtsInfligés);
+        // QUAND il reçoit des dégâts
+        foreach (var dégâtInfligé in dégâtsInfligés)
+            personnage.RecevoirDégâts(dégâtInfligé);
 
-        // ALORS ses HP diminuent de 1
+        // ALORS ses HP diminuent de la somme de ces dégâts
         var hpFinaux = personnage.PointsDeVie;
         var différence = hpInitiaux - hpFinaux;
-        Assert.Equal(dégâtsInfligés, différence);
+        Assert.Equal(dégâtsInfligés.Sum(), différence);
+    }
+
+    [Fact]
+    public void RecevoirPlusDeDégâtsQueLaVie()
+    {
+        // ETANT DONNE un Personnage
+        var personnage = new Personnage();
+
+        // QUAND il reçoit plus de dégâts que ses points de vie
+        personnage.RecevoirDégâts(Personnage.PointsDeVieMax + 1);
+
+        // ALORS ses HP tombent à zéro
+        var hpFinaux = personnage.PointsDeVie;
+        Assert.Equal(0U, hpFinaux);
+    }
+
+    [Fact]
+    public void RecevoirPlusDeDégâtsQueLaVieEn2Fois()
+    {
+        // ETANT DONNE un Personnage
+        var personnage = new Personnage();
+
+        // QUAND il reçoit plus de dégâts que ses points de vie
+        personnage.RecevoirDégâts(Personnage.PointsDeVieMax);
+        personnage.RecevoirDégâts(1);
+
+        // ALORS ses HP tombent à zéro
+        var hpFinaux = personnage.PointsDeVie;
+        Assert.Equal(0U, hpFinaux);
     }
 }

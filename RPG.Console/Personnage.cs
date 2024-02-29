@@ -2,7 +2,9 @@
 
 public class Personnage
 {
-    public int PointsDeVie { get; private set; } = 100;
+    public const uint PointsDeVieMax = 100U;
+
+    public uint PointsDeVie { get; private set; } = PointsDeVieMax;
 
     public void Tuer()
     {
@@ -15,7 +17,9 @@ public class Personnage
         PointsDeVie = 1;
     }
 
-    public void RecevoirDégâts(int dégâtsInfligés)
+    public void RecevoirDégâts(uint dégâtsInfligés)
     {
+        if (dégâtsInfligés > PointsDeVie) dégâtsInfligés = PointsDeVie;
+        PointsDeVie -= dégâtsInfligés;
     }
 }
